@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Dashboard | finEasy AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "tertiary-container": "#65fdb5",
+            "on-surface-variant": "#c4c7c8",
+            "secondary": "#b4c5ff",
+            "on-primary": "#2f3131",
+            "surface-tint": "#c6c6c7",
+            "tertiary": "#ffffff",
+            "inverse-surface": "#e5e2e1",
+            "outline": "#8e9192",
+            "secondary-container": "#163f9e",
+            "tertiary-fixed-dim": "#42e09a",
+            "primary-container": "#e2e2e2",
+            "secondary-fixed": "#dbe1ff",
+            "primary": "#ffffff",
+            "surface-container": "#201f1f",
+            "background": "#131313",
+            "on-background": "#e5e2e1",
+            "error": "#ffb4ab",
+            "tertiary-fixed": "#65fdb5",
+            "surface-container-highest": "#353535",
+            "on-secondary-container": "#9bb2ff",
+            "on-surface": "#e5e2e1",
+            "surface": "#131313",
+            "surface-container-low": "#1c1b1b",
+            "surface-variant": "#353535",
+            "surface-container-high": "#2a2a2a",
+            "surface-container-lowest": "#0e0e0e",
+            "secondary-fixed-dim": "#b4c5ff",
+            "outline-variant": "#444748"
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "headline-xl": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "numeric-metric": ["Plus Jakarta Sans", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen">
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-[rgba(255,255,255,0.09)] z-50 flex flex-col justify-between py-6 px-4">
+    <div class="flex flex-col gap-6">
+      <div class="flex items-center gap-3 px-2">
+        <a class="flex items-center gap-2" href="index.html">
+          <img alt="finEasy Logo" class="h-8 w-auto object-contain" src="assets/logo.svg"/>
+        </a>
+      </div>
+      <nav class="flex flex-col gap-1">
+        <a aria-current="page" class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT transition-colors bg-surface-container-high text-on-surface font-semibold" data-path="dashboard" href="dashboard.html">
+          <span class="material-symbols-outlined text-[20px]">dashboard</span>Dashboard
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md" data-path="upload" href="upload.html">
+          <span class="material-symbols-outlined text-[20px]">cloud_upload</span>Upload
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md" data-path="tax-result" href="tax-result.html">
+          <span class="material-symbols-outlined text-[20px]">calculate</span>Tax Result
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md" data-path="ca-review" href="ca-review.html">
+          <span class="material-symbols-outlined text-[20px]">verified_user</span>CA Review
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md" data-path="settings" href="#" onclick="showToast('Settings panel opens here', 'info'); return false;">
+          <span class="material-symbols-outlined text-[20px]">settings</span>Settings
+        </a>
+      </nav>
+    </div>
+
+    <!-- User Profile & CA Assigned info -->
+    <div class="border-t border-[rgba(255,255,255,0.06)] pt-4 px-2 flex flex-col gap-3">
+      <div class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-[rgba(124,156,255,0.1)] border border-[rgba(124,156,255,0.3)] text-secondary w-fit font-label-sm text-xs">
+        <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+        CA Assigned: Active
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+          </div>
+          <div class="flex flex-col leading-tight max-w-[130px] overflow-hidden">
+            <span class="font-label-md text-xs text-on-surface truncate user-display-name">Taxpayer</span>
+            <span class="font-label-sm text-[11px] text-on-surface-variant truncate user-display-email">user@demo.in</span>
+          </div>
+        </div>
+        <a class="text-on-surface-variant hover:text-on-surface transition-colors p-1" data-path="logout" href="#" title="Sign Out">
+          <span class="material-symbols-outlined text-[20px]">logout</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="pl-64">
+    <!-- Top Header -->
+    <header class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl border-b border-[rgba(255,255,255,0.09)] z-40 flex items-center justify-between px-8">
+      <div class="flex items-center gap-space-sm">
+        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Fiscal Year 2024-25</span>
+        <span class="text-outline-variant">•</span>
+        <span class="font-label-sm text-label-sm text-tertiary-fixed">Audit Ready</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <button class="text-on-surface-variant hover:text-on-surface transition-colors" onclick="showToast('Global search ready', 'info')" title="Search">
+          <span class="material-symbols-outlined text-[20px]">search</span>
+        </button>
+        <button class="text-on-surface-variant hover:text-on-surface transition-colors relative" onclick="showToast('You have 2 unread statutory reminders', 'info')" title="Notifications">
+          <span class="material-symbols-outlined text-[20px]">notifications</span>
+          <span class="absolute top-0 right-0 w-2 h-2 rounded-full bg-tertiary-fixed"></span>
+        </button>
+        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer" onclick="window.location.href='dashboard.html'">
+          <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="relative pt-16 bg-surface min-h-screen w-full px-8 py-6">
+      <div class="flex flex-col w-full gap-8">
+        
+        <!-- Welcome Banner -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-surface-container-lowest p-6 rounded-DEFAULT border border-[rgba(255,255,255,0.06)] shadow-sm">
+          <div class="flex flex-col gap-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="font-label-sm text-label-sm text-tertiary-fixed tracking-wider uppercase font-semibold">Assessment Year 2024-25</span>
+              <span class="text-outline-variant text-body-sm">•</span>
+              <span class="font-label-sm text-label-sm text-on-surface-variant font-medium">ITR-1 Sahaj</span>
+            </div>
+            <h1 class="font-headline-lg text-2xl text-primary font-bold tracking-tight truncate" id="welcome-banner-title">
+              Welcome back, Taxpayer
+            </h1>
+            <p class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-2">
+              Permanent Account Number: <span class="text-secondary font-semibold tracking-wider" id="banner-pan">ABCDE1234F</span>
+            </p>
+          </div>
+          <div class="flex items-center gap-3 shrink-0">
+            <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-secondary-container/20 text-secondary border border-secondary/30 shadow-sm" id="banner-status-badge">
+              <span class="relative flex h-2 w-2">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
+              </span>
+              <span class="font-label-md text-xs font-semibold tracking-wide" id="banner-status-text">Under CA Review</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filing Lifecycle Progression -->
+        <div class="bg-surface-container-low p-7 rounded-lg border border-[rgba(255,255,255,0.06)] shadow-sm flex flex-col gap-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined text-[18px]">timeline</span>
+              </div>
+              <div>
+                <h2 class="font-headline-md text-lg text-primary font-bold tracking-tight">Filing Lifecycle Progression</h2>
+                <p class="font-body-sm text-xs text-on-surface-variant">Real-time statutory timeline overseen by institutional advisory</p>
+              </div>
+            </div>
+            <span class="font-label-sm text-xs text-tertiary-fixed px-3 py-1 rounded-full bg-surface-container-highest" id="stepper-stage-label">Stage 2 of 4 Active</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 relative" id="lifecycle-stepper">
+            <!-- Step 1 -->
+            <div class="flex flex-col p-4 rounded-DEFAULT bg-surface-container relative overflow-hidden group border border-[rgba(255,255,255,0.04)]">
+              <div class="absolute top-0 left-0 right-0 h-1 bg-tertiary-fixed"></div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="font-label-sm text-xs text-on-surface-variant uppercase tracking-wider">Step 01</span>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-tertiary-container/10 text-tertiary-fixed font-label-sm text-xs">
+                  <span class="material-symbols-outlined text-[14px]">check_circle</span>
+                  Verified
+                </span>
+              </div>
+              <h3 class="font-headline-md text-base text-primary font-semibold mb-1">Documents Uploaded</h3>
+              <p class="font-body-sm text-xs text-on-surface-variant">Form 16 &amp; Salary Ledgers</p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="flex flex-col p-4 rounded-DEFAULT bg-surface-container-high relative overflow-hidden shadow-md border border-[rgba(124,156,255,0.2)]">
+              <div class="absolute top-0 left-0 right-0 h-1 bg-secondary animate-pulse"></div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="font-label-sm text-xs text-secondary uppercase tracking-wider font-semibold">Step 02 • Active</span>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-secondary-container/20 text-secondary font-label-sm text-xs font-medium">
+                  <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>
+                  In Progress
+                </span>
+              </div>
+              <h3 class="font-headline-md text-base text-primary font-semibold mb-1">CA Review &amp; Computation</h3>
+              <p class="font-body-sm text-xs text-on-surface-variant">CA Ananya Roy cross-verifying AIS</p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="flex flex-col p-4 rounded-DEFAULT bg-surface-container opacity-60 relative border border-[rgba(255,255,255,0.04)]">
+              <div class="flex items-center justify-between mb-3">
+                <span class="font-label-sm text-xs text-outline uppercase tracking-wider">Step 03</span>
+                <span class="text-outline font-label-sm text-xs">Upcoming</span>
+              </div>
+              <h3 class="font-headline-md text-base text-primary font-semibold mb-1">Tax Result &amp; Approval</h3>
+              <p class="font-body-sm text-xs text-on-surface-variant">Final tax liability &amp; rebate computation</p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="flex flex-col p-4 rounded-DEFAULT bg-surface-container opacity-60 relative border border-[rgba(255,255,255,0.04)]">
+              <div class="flex items-center justify-between mb-3">
+                <span class="font-label-sm text-xs text-outline uppercase tracking-wider">Step 04</span>
+                <span class="text-outline font-label-sm text-xs">Upcoming</span>
+              </div>
+              <h3 class="font-headline-md text-base text-primary font-semibold mb-1">E-Filing (ITR-1)</h3>
+              <p class="font-body-sm text-xs text-on-surface-variant">ITD API transmission &amp; e-verification</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2-Column Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <!-- LEFT 8 COLS -->
+          <div class="lg:col-span-8 flex flex-col gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              
+              <!-- Quick Actions -->
+              <div class="flex flex-col justify-between p-6 rounded-lg bg-surface-container-low border border-[rgba(255,255,255,0.06)] shadow-sm">
+                <div class="flex flex-col gap-3">
+                  <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-[22px]">bolt</span>
+                  </div>
+                  <div>
+                    <h3 class="font-headline-md text-lg font-bold text-primary">Quick Actions</h3>
+                    <p class="font-body-sm text-xs text-on-surface-variant">Immediate operational tasks to prevent filing delay</p>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-3 mt-6">
+                  <a class="group flex items-center justify-between px-5 py-3 rounded-full bg-primary text-on-primary font-label-md text-sm font-semibold transition-transform duration-200 active:scale-98 shadow-sm hover:bg-white" data-path="upload" href="upload.html">
+                    <span>Upload Pending Documents</span>
+                    <span class="material-symbols-outlined text-[20px] transition-transform duration-200 group-hover:translate-x-1">arrow_forward</span>
+                  </a>
+                  <a class="flex items-center justify-between px-5 py-3 rounded-full bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-sm font-medium transition-colors" data-path="ca-review" href="ca-review.html">
+                    <span class="flex items-center gap-2">
+                      <span class="material-symbols-outlined text-[18px] text-secondary">chat</span>
+                      Message Assigned CA
+                    </span>
+                    <span class="text-outline-variant font-label-sm text-xs">Instant</span>
+                  </a>
+                  <button class="flex items-center justify-between px-5 py-3 rounded-full bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-sm font-medium transition-colors" onclick="downloadDraftReport()" type="button">
+                    <span class="flex items-center gap-2">
+                      <span class="material-symbols-outlined text-[18px] text-tertiary-fixed">description</span>
+                      Download Draft Computation
+                    </span>
+                    <span class="material-symbols-outlined text-[18px] text-outline-variant">download</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Assigned Tax Advisory -->
+              <div class="flex flex-col justify-between p-6 rounded-lg bg-surface-container-low border border-[rgba(255,255,255,0.06)] shadow-sm">
+                <div class="flex flex-col gap-4">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-sm text-xs text-secondary uppercase tracking-wider font-semibold">Assigned Tax Advisory</span>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-tertiary-container/10 text-tertiary-fixed font-label-sm text-xs">
+                      <span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed"></span>
+                      Online now
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-4">
+                    <img class="w-14 h-14 rounded-full object-cover shadow-md shrink-0 border border-secondary/30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgOyoR_Hy5IY7E4hg-9gPa9WhBxfV3OW4B2YWJqeKQ8PBZGsbd-k02Q2JNzFR8lYCU4J2yX3t4yLAG-R-_KJEfKe69HzM2NQavUKLWtDHaYDhHrUftDn0z654oo5ZIs79B6bER_4cqNW5ALlzFYOhlLPp8XNZc1YWVzCPDtrTH79Ckt9IC9JSgamfJLmMxMyXcSUsT8W0FHQqaU9-vX2O9Ch14qqEbvS7bV3WNJBkZ8YiJA7FPB8zN"/>
+                    <div class="flex flex-col min-w-0">
+                      <div class="flex items-center gap-2">
+                        <h4 class="font-headline-md text-base font-bold text-primary truncate">CA Ananya Roy</h4>
+                        <span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+                      </div>
+                      <span class="font-label-sm text-xs text-on-surface-variant font-medium">Fellow Chartered Accountant • 9+ yrs exp</span>
+                      <span class="font-body-sm text-xs text-secondary-fixed-dim">Reviewing AY 2024-25 return</span>
+                    </div>
+                  </div>
+                  <div class="p-4 rounded-DEFAULT bg-surface-container relative mt-2 border border-[rgba(255,255,255,0.04)]">
+                    <div class="flex items-start gap-2.5">
+                      <span class="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">forum</span>
+                      <div class="flex flex-col gap-1">
+                        <span class="font-label-sm text-[11px] text-on-surface-variant">Latest Note (14m ago)</span>
+                        <p class="font-body-sm text-xs text-on-surface italic">
+                          "I am cross-verifying your HRA receipts with AIS. Looks good so far."
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pt-4 mt-4 flex items-center justify-between border-t border-[rgba(255,255,255,0.06)]">
+                  <span class="font-body-sm text-xs text-on-surface-variant">Response SLA: &lt; 15 mins</span>
+                  <a class="font-label-md text-xs font-semibold text-secondary hover:text-primary transition-colors flex items-center gap-1" data-path="ca-review" href="ca-review.html">
+                    Open Consultation Desk <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Past Year Filings Summary -->
+            <div class="flex flex-col p-6 rounded-lg bg-surface-container-low border border-[rgba(255,255,255,0.06)] shadow-sm gap-5">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-primary">
+                    <span class="material-symbols-outlined text-[18px]">history</span>
+                  </div>
+                  <div>
+                    <h3 class="font-headline-md text-base font-bold text-primary">Past Year Filings Summary</h3>
+                    <p class="font-body-sm text-xs text-on-surface-variant">Archived fiscal filings validated by Income Tax Department</p>
+                  </div>
+                </div>
+                <a class="font-label-sm text-xs text-secondary hover:text-primary transition-colors" href="#" onclick="showToast('Loading full 5-year archives...', 'info'); return false;">View All Archives</a>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="w-full text-left font-body-sm text-sm">
+                  <thead>
+                    <tr class="text-on-surface-variant uppercase font-label-sm text-xs border-b border-[rgba(255,255,255,0.06)]">
+                      <th class="py-3 px-4 font-semibold">Assessment Year</th>
+                      <th class="py-3 px-4 font-semibold">Form Type</th>
+                      <th class="py-3 px-4 font-semibold">Acknowledgment</th>
+                      <th class="py-3 px-4 font-semibold">Filing Status</th>
+                      <th class="py-3 px-4 font-semibold text-right">Settlement Outcome</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-[rgba(255,255,255,0.04)]" id="past-filings-tbody">
+                    <tr class="hover:bg-surface-container transition-colors">
+                      <td class="py-4 px-4 font-semibold text-primary">AY 2023-24</td>
+                      <td class="py-4 px-4 text-on-surface">ITR-1 (Salary &amp; Interest)</td>
+                      <td class="py-4 px-4 font-mono text-on-surface-variant">981240182</td>
+                      <td class="py-4 px-4">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-tertiary-container/10 text-tertiary-fixed font-label-sm text-xs">
+                          <span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed"></span>
+                          Filed &amp; Processed
+                        </span>
+                      </td>
+                      <td class="py-4 px-4 text-right font-bold text-tertiary-fixed">
+                        ₹14,200 <span class="text-xs font-normal text-on-surface-variant">Credited</span>
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-surface-container transition-colors">
+                      <td class="py-4 px-4 font-semibold text-primary">AY 2022-23</td>
+                      <td class="py-4 px-4 text-on-surface">ITR-1 (Salary)</td>
+                      <td class="py-4 px-4 font-mono text-on-surface-variant">870192341</td>
+                      <td class="py-4 px-4">
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-tertiary-container/10 text-tertiary-fixed font-label-sm text-xs">
+                          <span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed"></span>
+                          Filed &amp; Processed
+                        </span>
+                      </td>
+                      <td class="py-4 px-4 text-right font-bold text-on-surface">
+                        Nil <span class="text-xs font-normal text-on-surface-variant">Settled</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT 4 COLS -->
+          <div class="lg:col-span-4 flex flex-col gap-6">
+            <!-- Live Advisories -->
+            <div class="flex flex-col p-6 rounded-lg bg-surface-container-low border border-[rgba(255,255,255,0.06)] shadow-sm gap-4">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2 text-primary">
+                  <span class="material-symbols-outlined text-secondary text-[20px]">notifications_active</span>
+                  <h3 class="font-headline-md text-base font-bold">Live Advisories</h3>
+                </div>
+                <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+              </div>
+              <div class="flex flex-col gap-3">
+                <div class="p-4 rounded-DEFAULT bg-surface-container flex flex-col gap-2 border border-[rgba(255,255,255,0.04)]">
+                  <div class="flex items-center justify-between">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[rgba(245,185,66,0.1)] text-[#f5b942] font-label-sm text-xs font-semibold">
+                      <span class="material-symbols-outlined text-[14px]">warning</span>
+                      18 Days Remaining
+                    </span>
+                    <span class="font-label-sm text-[11px] text-on-surface-variant">CBDT Alert</span>
+                  </div>
+                  <h4 class="font-label-md text-xs text-primary font-semibold">ITR Filing Deadline: July 31, 2024</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant">
+                    Individual filing without audit for FY 2023-24 incurs penal interest u/s 234A if submitted past July 31.
+                  </p>
+                </div>
+                <div class="p-4 rounded-DEFAULT bg-surface-container flex flex-col gap-2 border border-[rgba(255,255,255,0.04)]">
+                  <div class="flex items-center justify-between">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-tertiary-container/10 text-tertiary-fixed font-label-sm text-xs font-semibold">
+                      <span class="material-symbols-outlined text-[14px]">check</span>
+                      26AS • AIS Sync 100%
+                    </span>
+                    <span class="font-label-sm text-[11px] text-on-surface-variant">Automated</span>
+                  </div>
+                  <h4 class="font-label-md text-xs text-primary font-semibold">AIS Reconciliation Cleared</h4>
+                  <p class="font-body-sm text-xs text-on-surface-variant">
+                    No TDS mismatch observed between Form 26AS and NSDL repository for employer payroll.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tax Computation Snapshot -->
+            <div class="flex flex-col p-6 rounded-lg bg-surface-container-low border border-[rgba(255,255,255,0.06)] shadow-sm gap-4">
+              <div class="flex items-center justify-between">
+                <h3 class="font-headline-md text-base font-bold text-primary">Tax Computation Snapshot</h3>
+                <span class="font-label-sm text-xs text-secondary font-mono bg-secondary/10 px-2 py-0.5 rounded">DRAFT</span>
+              </div>
+              <div class="flex flex-col gap-3 py-2">
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-on-surface-variant">Gross Total Income</span>
+                  <span class="text-primary font-semibold font-mono" id="snap-gross">₹ 18,45,000</span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-on-surface-variant">Exemptions (Sec 10)</span>
+                  <span class="text-tertiary-fixed font-mono" id="snap-exemptions">- ₹ 1,20,000</span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-on-surface-variant">Standard Deduction</span>
+                  <span class="text-tertiary-fixed font-mono" id="snap-std-ded">- ₹ 50,000</span>
+                </div>
+                <div class="flex justify-between items-center text-xs">
+                  <span class="text-on-surface-variant">Chapter VI-A (80C, 80D)</span>
+                  <span class="text-tertiary-fixed font-mono" id="snap-deductions">- ₹ 2,00,000</span>
+                </div>
+                <div class="flex justify-between items-center pt-3 bg-surface-container p-3 rounded-DEFAULT border border-[rgba(255,255,255,0.04)]">
+                  <span class="font-label-md text-xs text-primary font-medium">Estimated Net Tax</span>
+                  <span class="text-lg font-bold text-primary" id="snap-tax">₹ 1,84,320</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-3 p-3 rounded-DEFAULT bg-surface-container text-xs text-on-surface-variant border border-[rgba(255,255,255,0.04)]">
+                <span class="material-symbols-outlined text-secondary text-[18px] shrink-0">info</span>
+                <span id="snap-tds-note">TDS of ₹2,10,000 already deposited. Estimated refund eligibility in progress.</span>
+              </div>
+            </div>
+
+            <!-- Statutory Audit Protection Guarantee -->
+            <div class="relative overflow-hidden rounded-lg bg-surface-container-low border border-[rgba(255,255,255,0.06)] p-6 shadow-sm flex items-center gap-4">
+              <img class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2glr267ia7BfGg8bgt3KPPXjqesW03WfE-mik6mQFPc--tGZie_g9FBxDYdrx9_v9lSzj62VQc54ESIkQ5GABoCZ4wzUYgW8BmhOYoekSCfNmEoBLaAnj32rdTHSqf_LNZ00XpS0Tyd5qVHd39I8-FIW9K3FqDBHNoLx6_5rA8lj89n-T_2Z3m3rpGxUVMx8hgzcyICHXA8olyLL2_tMRiW9kSfzGzB1LQPkhxVwPuuYHpQ1HwMx7"/>
+              <div class="relative z-10 flex flex-col gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-tertiary-fixed text-[18px]">verified_user</span>
+                  <span class="font-label-sm text-xs text-tertiary-fixed font-semibold">Statutory Audit Protection</span>
+                </div>
+                <p class="font-body-sm text-xs text-on-surface leading-relaxed">
+                  All computations backed by finEasy Institutional CA representation guarantee against ITD scrutiny notices.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    async function loadDashboardData() {
+      const user = window.api.getUser();
+      if (user) {
+        document.getElementById('welcome-banner-title').textContent = `Welcome back, ${user.name || 'Taxpayer'}`;
+        if (user.pan_number) {
+          document.getElementById('banner-pan').textContent = user.pan_number;
+        }
+      }
+
+      try {
+        const filings = await window.api.getFilings();
+        let activeFiling = null;
+        if (filings && filings.length > 0) {
+          activeFiling = filings[0];
+          window.setActiveFilingId(activeFiling.id);
+        } else {
+          // Initialize active filing for AY 2024-25
+          activeFiling = await window.api.createFiling('2024-25', 'ITR-1');
+          if (activeFiling && activeFiling.id) {
+            window.setActiveFilingId(activeFiling.id);
+          }
+        }
+
+        if (activeFiling) {
+          updateFilingState(activeFiling);
+
+          // Check for Form 16 AI Analysis
+          try {
+            const aiAnalysis = await window.api.getAiAnalysis(activeFiling.id);
+            if (aiAnalysis) {
+              if (aiAnalysis.employee_name) {
+                document.getElementById('welcome-banner-title').textContent = `Welcome back, ${aiAnalysis.employee_name}`;
+                document.querySelectorAll('.user-display-name').forEach(el => el.textContent = aiAnalysis.employee_name);
+              }
+              if (aiAnalysis.pan_number) {
+                document.getElementById('banner-pan').textContent = aiAnalysis.pan_number;
+              }
+            }
+          } catch (e) {
+            console.warn('Dashboard AI analysis sync:', e);
+          }
+
+          loadTaxSnapshot(activeFiling.id);
+        }
+      } catch (err) {
+        console.warn('Could not fetch filings list:', err);
+      }
+    }
+
+    function updateFilingState(filing) {
+      const statusText = document.getElementById('banner-status-text');
+      const stageLabel = document.getElementById('stepper-stage-label');
+      const status = (filing.status || 'draft').toLowerCase();
+
+      if (status === 'draft') {
+        statusText.textContent = 'Draft In Progress';
+        stageLabel.textContent = 'Stage 1 of 4 Active';
+      } else if (status === 'analysed') {
+        statusText.textContent = 'Form 16 Analyzed';
+        stageLabel.textContent = 'Stage 2 of 4 Active';
+      } else if (status === 'in_review' || status === 'submitted') {
+        statusText.textContent = 'Under CA Review';
+        stageLabel.textContent = 'Stage 2 of 4 Active';
+      } else if (status === 'approved') {
+        statusText.textContent = 'Computation Approved';
+        stageLabel.textContent = 'Stage 3 of 4 Active';
+      } else if (status === 'filed') {
+        statusText.textContent = 'ITR Successfully Filed';
+        stageLabel.textContent = 'Stage 4 of 4 Completed';
+      }
+    }
+
+    async function loadTaxSnapshot(filingId) {
+      try {
+        const tax = await window.api.getLatestTax(filingId);
+        if (tax && (tax.taxable_income !== undefined || tax.gross_income !== undefined)) {
+          const gross = tax.gross_income ?? tax.gross_total_income ?? 1845000;
+          const deductions = tax.deductions ?? tax.total_deductions ?? 200000;
+          const taxAmt = tax.total_tax ?? tax.net_tax_payable ?? 184320;
+          const tds = tax.tds ?? tax.tds_deducted;
+          const net = tax.refund_or_payable;
+
+          document.getElementById('snap-gross').textContent = formatINR(gross);
+          document.getElementById('snap-deductions').textContent = `- ${formatINR(deductions)}`;
+          document.getElementById('snap-tax').textContent = formatINR(taxAmt);
+
+          if (tds !== undefined && tds !== null) {
+            if (net !== undefined && net < 0) {
+              const refund = Math.abs(net);
+              document.getElementById('snap-tds-note').textContent = `TDS of ${formatINR(tds)} deposited. Estimated refund: ${formatINR(refund)} under New Regime.`;
+            } else if (net !== undefined && net > 0) {
+              document.getElementById('snap-tds-note').textContent = `TDS of ${formatINR(tds)} deposited. Remaining tax payable: ${formatINR(net)}.`;
+            } else {
+              document.getElementById('snap-tds-note').textContent = `TDS of ${formatINR(tds)} already deposited with Income Tax Department.`;
+            }
+          }
+        }
+      } catch (e) {
+        // Fallback to sample values
+      }
+    }
+
+    function downloadDraftReport() {
+      showToast('Generating Draft Computation PDF...', 'info');
+      setTimeout(() => {
+        showToast('Draft Computation AY2024-25.pdf downloaded successfully', 'success');
+      }, 1200);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadDashboardData);
+  </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "demo-taxpayer-001": {
+    "pan": "ABCDE1234F",
+    "name": "Arjun Sharma",
+    "assessment_year": "2025-26",
+    "financial_year": "2024-25",
+    "form_26as": {
+      "salary_income": 950000.0,
+      "employer_name": "Tech Corp India Pvt Ltd",
+      "employer_tan": "BLRT12345C",
+      "tds_salary": 52000.0
+    },
+    "ais": {
+      "savings_interest": 14500.0,
+      "dividend_income": 6200.0,
+      "mutual_fund_purchase": 50000.0
+    }
+  },
+  "default": {
+    "pan": "DEMOP9999Z",
+    "name": "Demo Taxpayer",
+    "assessment_year": "2025-26",
+    "financial_year": "2024-25",
+    "form_26as": {
+      "salary_income": 850000.0,
+      "employer_name": "Acme Innovations Ltd",
+      "employer_tan": "MUMT98765A",
+      "tds_salary": 42000.0
+    },
+    "ais": {
+      "savings_interest": 12000.0,
+      "dividend_income": 3500.0,
+      "mutual_fund_purchase": 25000.0
+    }
+  }
+}

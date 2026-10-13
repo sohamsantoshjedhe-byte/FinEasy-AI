@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Tax Computation Result | finEasy AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "tertiary-container": "#65fdb5",
+            "on-surface-variant": "#c4c7c8",
+            "secondary": "#b4c5ff",
+            "on-primary": "#2f3131",
+            "surface-tint": "#c6c6c7",
+            "tertiary": "#ffffff",
+            "inverse-surface": "#e5e2e1",
+            "outline": "#8e9192",
+            "secondary-container": "#163f9e",
+            "tertiary-fixed-dim": "#42e09a",
+            "primary-container": "#e2e2e2",
+            "secondary-fixed": "#dbe1ff",
+            "primary": "#ffffff",
+            "surface-container": "#201f1f",
+            "background": "#131313",
+            "on-background": "#e5e2e1",
+            "error": "#ffb4ab",
+            "tertiary-fixed": "#65fdb5",
+            "surface-container-highest": "#353535",
+            "on-secondary-container": "#9bb2ff",
+            "on-surface": "#e5e2e1",
+            "surface": "#131313",
+            "surface-container-low": "#1c1b1b",
+            "surface-variant": "#353535",
+            "surface-container-high": "#2a2a2a",
+            "surface-container-lowest": "#0e0e0e",
+            "secondary-fixed-dim": "#b4c5ff",
+            "outline-variant": "#444748"
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "headline-xl": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "display-hero": ["Plus Jakarta Sans", "sans-serif"],
+            "display-hero-mobile": ["Plus Jakarta Sans", "sans-serif"],
+            "numeric-metric": ["Plus Jakarta Sans", "sans-serif"]
+          },
+          fontSize: {
+            "display-hero": ["3.5rem", { "lineHeight": "1.1", "letterSpacing": "-0.03em", "fontWeight": "700" }],
+            "display-hero-mobile": ["2.25rem", { "lineHeight": "1.15", "letterSpacing": "-0.025em", "fontWeight": "700" }]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen">
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-[rgba(255,255,255,0.09)] z-50 flex flex-col justify-between py-6 px-4">
+    <div class="flex flex-col gap-6">
+      <div class="flex items-center gap-3 px-2">
+        <a class="flex items-center gap-2" href="index.html">
+          <img alt="finEasy Logo" class="h-8 w-auto object-contain" src="assets/logo.svg"/>
+        </a>
+      </div>
+      <nav class="flex flex-col gap-1">
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md" data-path="dashboard" href="dashboard.html">
+          <span class="material-symbols-outlined text-[20px]">dashboard</span>Dashboard
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md" data-path="upload" href="upload.html">
+          <span class="material-symbols-outlined text-[20px]">cloud_upload</span>Upload
+        </a>
+        <a aria-current="page" class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT transition-colors bg-surface-container-high text-on-surface font-semibold" data-path="tax-result" href="tax-result.html">
+          <span class="material-symbols-outlined text-[20px]">calculate</span>Tax Result
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md" data-path="ca-review" href="ca-review.html">
+          <span class="material-symbols-outlined text-[20px]">verified_user</span>CA Review
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md" data-path="settings" href="#" onclick="showToast('Settings panel opens here', 'info'); return false;">
+          <span class="material-symbols-outlined text-[20px]">settings</span>Settings
+        </a>
+      </nav>
+    </div>
+
+    <!-- User Profile & CA Assigned info -->
+    <div class="border-t border-[rgba(255,255,255,0.06)] pt-4 px-2 flex flex-col gap-3">
+      <div class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-[rgba(124,156,255,0.1)] border border-[rgba(124,156,255,0.3)] text-secondary w-fit font-label-sm text-xs">
+        <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+        CA Assigned: Active
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+          </div>
+          <div class="flex flex-col leading-tight max-w-[130px] overflow-hidden">
+            <span class="font-label-md text-xs text-on-surface truncate user-display-name">Taxpayer</span>
+            <span class="font-label-sm text-[11px] text-on-surface-variant truncate user-display-email">user@demo.in</span>
+          </div>
+        </div>
+        <a class="text-on-surface-variant hover:text-on-surface transition-colors p-1" data-path="logout" href="#" title="Sign Out">
+          <span class="material-symbols-outlined text-[20px]">logout</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="pl-64">
+    <!-- Top Header -->
+    <header class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl border-b border-[rgba(255,255,255,0.09)] z-40 flex items-center justify-between px-8">
+      <div class="flex items-center gap-space-sm">
+        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Fiscal Year 2024-25</span>
+        <span class="text-outline-variant">•</span>
+        <span class="font-label-sm text-label-sm text-tertiary-fixed">Audit Ready</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <button class="text-on-surface-variant hover:text-on-surface transition-colors" onclick="showToast('Audit report ready for download', 'info')">
+          <span class="material-symbols-outlined text-[20px]">search</span>
+        </button>
+        <button class="text-on-surface-variant hover:text-on-surface transition-colors relative" onclick="showToast('Tax calculation verified by CA Ananya Roy', 'info')">
+          <span class="material-symbols-outlined text-[20px]">notifications</span>
+          <span class="absolute top-0 right-0 w-2 h-2 rounded-full bg-tertiary-fixed"></span>
+        </button>
+        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer" onclick="window.location.href='dashboard.html'">
+          <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="relative pt-16 bg-surface min-h-screen w-full px-8 py-6">
+      <div class="flex flex-col w-full pb-20">
+        
+        <!-- Header Info -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+          <div class="flex flex-col gap-1.5">
+            <div class="flex items-center gap-2">
+              <span class="font-label-sm text-xs text-secondary tracking-widest uppercase font-semibold">Statutory Assessment</span>
+              <span class="text-outline-variant font-label-sm text-xs">•</span>
+              <span class="font-label-sm text-xs text-on-surface-variant" id="tax-pan">PAN: ABCDE1234F</span>
+            </div>
+            <h1 class="font-display-hero-mobile md:font-headline-xl text-2xl md:text-3xl font-bold text-primary tracking-tight">
+              Tax Computation Summary (AY 2024-25)
+            </h1>
+            <p class="font-body-md text-sm text-on-surface-variant flex items-center gap-2">
+              <span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+              Calculated by CA Ananya Roy under optimal New Tax Regime (Section 115BAC)
+            </p>
+          </div>
+          <div class="flex items-center gap-3">
+            <div class="inline-flex items-center gap-2.5 rounded-full px-4 py-1.5 bg-[rgba(124,156,255,0.1)] border border-[rgba(124,156,255,0.3)] text-secondary shadow-sm">
+              <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+              <span class="font-label-sm text-xs font-semibold tracking-wide">Computation Ready for Review</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- HERO REFUND / TAX CARD -->
+        <div class="relative overflow-hidden rounded-[24px] bg-surface-container-low border border-[rgba(255,255,255,0.09)] p-8 md:p-10 shadow-xl backdrop-blur-sm mb-8">
+          <div class="absolute -right-16 -top-16 w-80 h-80 bg-[rgba(101,253,181,0.06)] rounded-full blur-3xl pointer-events-none"></div>
+          <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-[rgba(124,156,255,0.05)] rounded-full blur-3xl pointer-events-none"></div>
+          
+          <div class="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
+            <div class="flex flex-col gap-4 text-left">
+              <div class="flex items-center gap-3 flex-wrap">
+                <span class="font-label-md text-xs text-on-surface-variant font-semibold uppercase tracking-wider" id="hero-status-title">
+                  Net Refund Receivable to Your Bank Account
+                </span>
+                <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[rgba(101,253,181,0.12)] border border-[rgba(101,253,181,0.28)] text-tertiary-fixed font-label-sm text-xs font-semibold" id="hero-savings-badge">
+                  <span class="material-symbols-outlined text-[14px]">trending_down</span>
+                  Saved ₹18,400 compared to Old Regime
+                </span>
+              </div>
+              <div class="flex items-baseline gap-4">
+                <span class="font-display-hero text-4xl sm:text-5xl md:text-6xl tracking-tight text-tertiary-fixed font-extrabold select-all" id="hero-tax-amount">
+                  ₹46,820
+                </span>
+                <span class="font-label-md text-sm text-on-surface-variant/80" id="hero-payout-type">Direct Electronic Deposit</span>
+              </div>
+              <div class="flex items-center gap-2.5 pt-2 text-on-surface-variant font-body-sm text-xs">
+                <div class="w-7 h-7 rounded-full bg-surface-container flex items-center justify-center border border-[rgba(255,255,255,0.06)]">
+                  <span class="material-symbols-outlined text-secondary text-[16px]">account_balance</span>
+                </div>
+                <span>Disbursement Destination: <strong class="text-primary font-semibold">HDFC Bank •••• 4091</strong></span>
+                <span class="text-outline-variant font-label-sm text-xs">•</span>
+                <span class="inline-flex items-center gap-1 text-tertiary-fixed font-label-sm text-xs">
+                  <span class="material-symbols-outlined text-[14px]">check_circle</span>
+                  Pre-validated with ITD
+                </span>
+              </div>
+            </div>
+
+            <!-- Right Recommendations -->
+            <div class="flex flex-col sm:flex-row lg:flex-col gap-3 min-w-[260px] self-stretch lg:self-center justify-center text-left">
+              <div class="p-4 rounded-xl bg-surface-container border border-[rgba(255,255,255,0.06)] flex flex-col gap-1">
+                <span class="font-label-sm text-[11px] text-on-surface-variant">Tax Advisor Recommendation</span>
+                <div class="flex items-center justify-between">
+                  <span class="font-headline-md text-sm text-primary font-bold">New Regime (u/s 115BAC)</span>
+                  <span class="material-symbols-outlined text-tertiary-fixed text-[20px]">recommend</span>
+                </div>
+                <span class="font-body-sm text-xs text-on-surface-variant/80">Zero surcharge threshold effectively leveraged</span>
+              </div>
+              <div class="p-4 rounded-xl bg-surface-container border border-[rgba(255,255,255,0.06)] flex flex-col gap-1">
+                <span class="font-label-sm text-[11px] text-on-surface-variant">Estimated Credit Timeline</span>
+                <div class="flex items-center justify-between">
+                  <span class="font-headline-md text-sm text-on-surface font-bold">7 – 14 Business Days</span>
+                  <span class="material-symbols-outlined text-secondary text-[20px]">schedule</span>
+                </div>
+                <span class="font-body-sm text-xs text-on-surface-variant/80">Post e-verification via Aadhaar OTP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- GEMINI AI EXECUTIVE SUMMARY & FORM 16 INTELLIGENCE CARD -->
+        <div id="ai-explanation-card" class="rounded-[24px] bg-surface-container-low border border-secondary/30 p-6 md:p-8 shadow-xl relative overflow-hidden mb-8">
+          <div class="absolute -right-10 -top-10 w-72 h-72 bg-gradient-to-br from-secondary/15 via-primary/5 to-tertiary-fixed/10 rounded-full blur-3xl pointer-events-none"></div>
+          
+          <div class="relative z-10 flex flex-col gap-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[rgba(255,255,255,0.06)]">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-secondary/20 to-primary/20 border border-secondary/40 flex items-center justify-center text-secondary">
+                  <span class="material-symbols-outlined text-[22px]">auto_awesome</span>
+                </div>
+                <div>
+                  <div class="flex items-center gap-2">
+                    <h3 class="font-headline-md text-base font-bold text-primary">Gemini AI Executive Tax Summary</h3>
+                    <span class="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full bg-secondary/15 text-secondary border border-secondary/30 font-semibold uppercase tracking-wider">
+                      Live AI Analysis
+                    </span>
+                  </div>
+                  <p class="font-body-sm text-xs text-on-surface-variant">Intelligent breakdown derived from verified Form 16 Part B documentation</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button id="btn-refresh-ai-summary" onclick="refreshAiSummary()" class="px-3.5 py-1.5 rounded-full bg-surface-container hover:bg-surface-container-high border border-[rgba(255,255,255,0.08)] text-xs text-on-surface hover:text-primary transition-all flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[15px]">refresh</span>
+                  <span>Refresh AI Analysis</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Taxpayer / Employer Meta Strip -->
+            <div id="ai-meta-strip" class="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-surface-container/60 p-4 rounded-xl border border-[rgba(255,255,255,0.04)] text-xs">
+              <div class="flex flex-col gap-0.5">
+                <span class="text-on-surface-variant text-[11px]">Employee (Form 16)</span>
+                <span class="font-semibold text-primary truncate" id="ai-meta-employee">Sunil Chandrakant Gour</span>
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <span class="text-on-surface-variant text-[11px]">Employer / Deductor</span>
+                <span class="font-semibold text-primary truncate" id="ai-meta-employer">Bharat Bijlee Ltd</span>
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <span class="text-on-surface-variant text-[11px]">Taxpayer PAN</span>
+                <span class="font-semibold text-secondary font-mono" id="ai-meta-pan">AJUPG2161R</span>
+              </div>
+              <div class="flex flex-col gap-0.5">
+                <span class="text-on-surface-variant text-[11px]">Assessment Year</span>
+                <span class="font-semibold text-tertiary-fixed" id="ai-meta-ay">2024-25 (FY 2023-24)</span>
+              </div>
+            </div>
+
+            <!-- Executive Summary Text -->
+            <div class="p-4 rounded-xl bg-surface-container/40 border border-[rgba(255,255,255,0.05)] flex flex-col gap-2">
+              <span class="text-[11px] uppercase tracking-wider text-secondary font-semibold flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[14px]">psychology</span>
+                Plain-Language Overview
+              </span>
+              <p class="font-body-md text-sm text-on-surface leading-relaxed" id="ai-summary-text">
+                Analyzing computation and Form 16 certificates...
+              </p>
+            </div>
+
+            <!-- 2-Col AI Insights: Income Head Breakdown & Tax Liability Analysis -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="p-4 rounded-xl bg-surface-container/30 border border-[rgba(255,255,255,0.04)] flex flex-col gap-1.5">
+                <span class="text-xs font-semibold text-primary flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-tertiary-fixed text-[16px]">account_balance_wallet</span>
+                  Income &amp; Deductions Breakdown
+                </span>
+                <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed" id="ai-income-explanation">
+                  Verified against Section 17(1) salary and allowable deductions.
+                </p>
+              </div>
+              <div class="p-4 rounded-xl bg-surface-container/30 border border-[rgba(255,255,255,0.04)] flex flex-col gap-1.5">
+                <span class="text-xs font-semibold text-primary flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-secondary text-[16px]">receipt_long</span>
+                  TDS &amp; Settlement Determination
+                </span>
+                <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed" id="ai-tax-explanation">
+                  Cross-checked with Section 115BAC slab rates and advance tax/TDS deposited.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2-COLUMN DETAILED BREAKDOWN -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          
+          <!-- LEFT 2 COLS: Ledger Table -->
+          <div class="lg:col-span-2 flex flex-col gap-4 text-left">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="material-symbols-outlined text-primary text-[20px]">table_rows</span>
+                <h2 class="font-headline-md text-base font-bold text-primary">Ledger &amp; Computation Breakdown</h2>
+              </div>
+              <span class="font-label-sm text-xs text-on-surface-variant uppercase tracking-wider">ITR-1 (Sahaj) Schema</span>
+            </div>
+
+            <div class="rounded-[24px] bg-surface-container-low border border-[rgba(255,255,255,0.09)] overflow-hidden shadow-lg">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse font-body-sm text-sm">
+                  <thead>
+                    <tr class="border-b border-[rgba(255,255,255,0.09)] bg-surface-container-lowest/60">
+                      <th class="py-4 px-6 font-label-sm text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Income Head / Deduction</th>
+                      <th class="py-4 px-6 font-label-sm text-xs uppercase tracking-wider text-on-surface-variant text-right font-semibold">Computation Value</th>
+                      <th class="py-4 px-6 font-label-sm text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Statutory Rule</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-[rgba(255,255,255,0.06)]">
+                    <tr class="hover:bg-surface-container/50 transition-colors">
+                      <td class="py-4 px-6 text-on-surface flex items-center gap-3">
+                        <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                        <span class="font-medium text-primary">Gross Total Income (Salary + Other)</span>
+                      </td>
+                      <td class="py-4 px-6 text-right font-semibold text-primary tabular-nums" id="tbl-gross">
+                        ₹18,45,000
+                      </td>
+                      <td class="py-4 px-6 text-on-surface-variant text-xs">
+                        Sec 17(1) &amp; Sec 56(2)(id)
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-surface-container/50 transition-colors">
+                      <td class="py-4 px-6 text-on-surface flex items-center gap-3">
+                        <span class="w-2 h-2 rounded-full bg-tertiary-fixed"></span>
+                        <span>Standard Deduction (u/s 16(ia))</span>
+                      </td>
+                      <td class="py-4 px-6 text-right font-semibold text-tertiary-fixed tabular-nums" id="tbl-std-ded">
+                        -₹50,000
+                      </td>
+                      <td class="py-4 px-6 text-on-surface-variant text-xs">
+                        Flat exemption for salaried individuals
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-surface-container/50 transition-colors bg-surface-container/20">
+                      <td class="py-4 px-6 text-on-surface flex items-center gap-3">
+                        <span class="w-2 h-2 rounded-full bg-outline"></span>
+                        <span class="font-medium">Total Taxable Income</span>
+                      </td>
+                      <td class="py-4 px-6 text-right font-bold text-primary tabular-nums" id="tbl-taxable">
+                        ₹17,95,000
+                      </td>
+                      <td class="py-4 px-6 text-on-surface-variant text-xs">
+                        Net Chargeable Base u/s 115BAC
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-surface-container/50 transition-colors">
+                      <td class="py-4 px-6 text-on-surface flex items-center gap-3">
+                        <span class="w-2 h-2 rounded-full bg-error"></span>
+                        <span>Total Computed Tax Liability</span>
+                      </td>
+                      <td class="py-4 px-6 text-right font-semibold text-error tabular-nums" id="tbl-computed-tax">
+                        ₹2,10,000
+                      </td>
+                      <td class="py-4 px-6 text-on-surface-variant text-xs">
+                        Includes 4% Health &amp; Higher Edu Cess
+                      </td>
+                    </tr>
+                    <tr class="hover:bg-surface-container/50 transition-colors">
+                      <td class="py-4 px-6 text-on-surface flex items-center gap-3">
+                        <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                        <span>TDS Deducted by Employer (Form 16)</span>
+                      </td>
+                      <td class="py-4 px-6 text-right font-semibold text-primary tabular-nums" id="tbl-tds">
+                        ₹2,56,820
+                      </td>
+                      <td class="py-4 px-6 text-on-surface-variant text-xs">
+                        Reconciled with Form 26AS &amp; AIS
+                      </td>
+                    </tr>
+                    <tr class="bg-[rgba(101,253,181,0.04)] border-t border-[rgba(101,253,181,0.2)]">
+                      <td class="py-5 px-6 font-semibold text-tertiary-fixed flex items-center gap-3">
+                        <span class="material-symbols-outlined text-[20px] text-tertiary-fixed">check_circle</span>
+                        <span id="tbl-refund-label">Net Refund Payable to Taxpayer</span>
+                      </td>
+                      <td class="py-5 px-6 text-right font-bold text-lg text-tertiary-fixed tabular-nums" id="tbl-net-refund">
+                        ₹46,820
+                      </td>
+                      <td class="py-5 px-6 text-tertiary-fixed font-label-sm text-xs font-semibold">
+                        Refund claim Section 237 compliant
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT 1 COL: Regime Comparison -->
+          <div class="flex flex-col gap-6 text-left">
+            <div class="flex items-center gap-2.5">
+              <span class="material-symbols-outlined text-primary text-[20px]">balance</span>
+              <h2 class="font-headline-md text-base font-bold text-primary">Regime Comparison</h2>
+            </div>
+
+            <div class="rounded-[24px] bg-surface-container-low border border-[rgba(255,255,255,0.09)] p-6 flex flex-col gap-6 shadow-lg">
+              <div class="flex items-center justify-between pb-4 border-b border-[rgba(255,255,255,0.06)]">
+                <div class="flex flex-col">
+                  <span class="font-label-md text-xs font-semibold text-primary">Side-by-Side Tax Impact</span>
+                  <span class="font-body-sm text-[11px] text-on-surface-variant">Comparison for AY 2024-25</span>
+                </div>
+                <span class="inline-flex items-center gap-1 text-[11px] px-2.5 py-1 rounded-full bg-secondary/10 border border-secondary/30 text-secondary font-semibold">
+                  Optimized
+                </span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 rounded-xl bg-surface-container/60 border border-[rgba(255,255,255,0.05)] flex flex-col gap-2">
+                  <span class="font-label-sm text-xs text-on-surface-variant font-medium">Old Regime</span>
+                  <span class="text-base text-primary tabular-nums font-bold">₹2,28,400</span>
+                  <span class="text-[11px] text-on-surface-variant/70">80C + 80D + HRA</span>
+                  <div class="mt-2 text-[11px] text-error flex items-center gap-1 font-semibold">
+                    <span class="material-symbols-outlined text-[14px]">close</span>
+                    ₹18,400 higher
+                  </div>
+                </div>
+                <div class="p-4 rounded-xl bg-surface-container border border-[rgba(101,253,181,0.25)] flex flex-col gap-2 relative overflow-hidden">
+                  <div class="absolute top-0 right-0 bg-tertiary-fixed text-on-tertiary-fixed text-[9px] font-bold px-2 py-0.5 rounded-bl">
+                    ACTIVE
+                  </div>
+                  <span class="font-label-sm text-xs text-tertiary-fixed font-medium">New Regime (115BAC)</span>
+                  <span class="text-base text-tertiary-fixed tabular-nums font-bold" id="regime-new-tax">₹2,10,000</span>
+                  <span class="text-[11px] text-on-surface-variant/70">Standard Slab Rates</span>
+                  <div class="mt-2 text-[11px] text-tertiary-fixed flex items-center gap-1 font-semibold">
+                    <span class="material-symbols-outlined text-[14px]">check</span>
+                    Maximum Savings
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-xl bg-surface-container/40 border border-[rgba(255,255,255,0.06)] flex flex-col gap-3">
+                <div class="flex items-center justify-between text-xs font-medium">
+                  <span class="text-on-surface-variant">Effective Tax Rate:</span>
+                  <span class="text-primary font-semibold" id="effective-rate-text">11.38%</span>
+                </div>
+                <div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+                  <div class="bg-tertiary-fixed h-2 rounded-full transition-all duration-500" id="effective-rate-bar" style="width: 11.38%;"></div>
+                </div>
+                <span class="text-[11px] text-on-surface-variant/70">Calculated over Gross Salary of ₹18.45L</span>
+              </div>
+
+              <div class="pt-2 flex items-start gap-3 text-on-surface-variant font-body-sm text-xs">
+                <span class="material-symbols-outlined text-secondary text-[20px] shrink-0 mt-0.5">info</span>
+                <span>Section 115BAC applies by default unless opted out via Form 10-IEA prior to filing deadline.</span>
+              </div>
+            </div>
+
+            <!-- Form 26AS Card -->
+            <div class="rounded-[24px] bg-surface-container-low border border-[rgba(255,255,255,0.09)] p-5 flex items-center justify-between shadow-md">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center">
+                  <span class="material-symbols-outlined text-primary text-[20px]">assignment_turned_in</span>
+                </div>
+                <div class="flex flex-col">
+                  <span class="font-label-md text-xs text-primary font-semibold">Form 26AS Reconciled</span>
+                  <span class="font-body-sm text-xs text-tertiary-fixed font-medium">100% Match Identified</span>
+                </div>
+              </div>
+              <span class="material-symbols-outlined text-tertiary-fixed text-[24px]">verified</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- STICKY FLOATING ACTION DOCK -->
+        <div class="sticky bottom-4 z-30 p-4 rounded-full bg-surface-container-lowest/80 border border-[rgba(255,255,255,0.14)] backdrop-blur-xl shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="flex items-center gap-3 px-4 hidden md:flex">
+            <span class="w-2.5 h-2.5 rounded-full bg-tertiary-fixed shadow-[0_0_8px_#65fdb5]"></span>
+            <span class="font-label-md text-xs text-on-surface">Ready to file: Verification signature pending CA Review</span>
+          </div>
+          <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+            <button class="inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 border border-[rgba(255,255,255,0.15)] bg-transparent text-[#ededed] font-label-md text-xs font-semibold hover:bg-[rgba(255,255,255,0.04)] hover:border-[rgba(255,255,255,0.35)] transition-all" id="download-report-btn">
+              <span class="material-symbols-outlined text-[18px]">download</span>
+              Download Computation Report (PDF)
+            </button>
+            <a class="btn-nav-start inline-flex items-center justify-center gap-2 rounded-full px-7 py-3 bg-[#fdfdfd] text-[#050505] font-label-md text-xs font-semibold hover:bg-white transition-all shadow-lg group" data-path="ca-review" href="ca-review.html">
+              <span>Proceed to CA Review</span>
+              <span class="material-symbols-outlined text-[18px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    async function loadTaxResult() {
+      const activeFilingId = window.getActiveFilingId();
+      const user = window.api.getUser();
+      if (user && user.pan_number) {
+        document.getElementById('tax-pan').textContent = `PAN: ${user.pan_number}`;
+      }
+
+      if (activeFilingId) {
+        try {
+          // 1. Fetch AI Document Analysis (Form 16 extracted data)
+          let aiAnalysis = null;
+          try {
+            aiAnalysis = await window.api.getAiAnalysis(activeFilingId);
+          } catch (e) {
+            console.warn('Could not fetch AI analysis:', e);
+          }
+
+          if (aiAnalysis) {
+            if (aiAnalysis.employee_name) {
+              document.getElementById('ai-meta-employee').textContent = aiAnalysis.employee_name;
+              document.querySelectorAll('.user-display-name').forEach(el => el.textContent = aiAnalysis.employee_name);
+            }
+            if (aiAnalysis.employer_name) {
+              document.getElementById('ai-meta-employer').textContent = aiAnalysis.employer_name;
+            }
+            if (aiAnalysis.pan_number) {
+              document.getElementById('ai-meta-pan').textContent = aiAnalysis.pan_number;
+              document.getElementById('tax-pan').textContent = `PAN: ${aiAnalysis.pan_number}`;
+            }
+            if (aiAnalysis.financial_year || aiAnalysis.assessment_year) {
+              const fy = aiAnalysis.financial_year || '2023-24';
+              const ay = aiAnalysis.assessment_year || '2024-25';
+              document.getElementById('ai-meta-ay').textContent = `AY ${ay} (FY ${fy})`;
+            }
+            if (aiAnalysis.summary) {
+              document.getElementById('ai-summary-text').textContent = aiAnalysis.summary;
+            }
+          }
+
+          // 2. Fetch Latest Deterministic Tax Calculation
+          const tax = await window.api.getLatestTax(activeFilingId);
+          if (tax && (tax.taxable_income !== undefined || tax.gross_income !== undefined)) {
+            const gross = tax.gross_income ?? tax.gross_total_income ?? 1845000;
+            const deductions = tax.deductions ?? tax.total_deductions ?? 50000;
+            const taxable = tax.taxable_income ?? (gross - deductions);
+            const computedTax = tax.total_tax ?? tax.total_tax_liability ?? tax.net_tax_payable ?? 210000;
+            const tds = tax.tds ?? tax.tds_deducted ?? 256820;
+
+            let isRefund = false;
+            let netAmount = 0;
+            if (tax.refund_or_payable !== undefined && tax.refund_or_payable !== null) {
+              // Negative value indicates refund in calculator engine
+              if (tax.refund_or_payable < 0) {
+                isRefund = true;
+                netAmount = Math.abs(tax.refund_or_payable);
+              } else if (tax.refund_or_payable > 0) {
+                isRefund = false;
+                netAmount = tax.refund_or_payable;
+              } else {
+                isRefund = true;
+                netAmount = 0;
+              }
+            } else {
+              const diff = tds - computedTax;
+              isRefund = diff >= 0;
+              netAmount = Math.abs(diff);
+            }
+
+            document.getElementById('tbl-gross').textContent = formatINR(gross);
+            document.getElementById('tbl-std-ded').textContent = `-${formatINR(deductions)}`;
+            document.getElementById('tbl-taxable').textContent = formatINR(taxable);
+            
+            const compEl = document.getElementById('tbl-computed-tax') || document.getElementById('tbl-computedTax');
+            if (compEl) compEl.textContent = formatINR(computedTax);
+            document.getElementById('tbl-tds').textContent = formatINR(tds);
+
+            if (isRefund) {
+              document.getElementById('hero-tax-amount').textContent = formatINR(netAmount);
+              document.getElementById('hero-tax-amount').className = 'font-display-hero text-4xl sm:text-5xl md:text-6xl tracking-tight text-tertiary-fixed font-extrabold select-all';
+              document.getElementById('hero-status-title').textContent = 'Net Refund Receivable to Your Bank Account';
+              document.getElementById('hero-payout-type').textContent = 'Direct Electronic Deposit';
+              document.getElementById('tbl-refund-label').textContent = 'Net Refund Payable to Taxpayer';
+              document.getElementById('tbl-net-refund').textContent = formatINR(netAmount);
+              document.getElementById('tbl-net-refund').className = 'py-5 px-6 text-right font-bold text-lg text-tertiary-fixed tabular-nums';
+            } else {
+              document.getElementById('hero-tax-amount').textContent = formatINR(netAmount);
+              document.getElementById('hero-tax-amount').className = 'font-display-hero text-4xl sm:text-5xl md:text-6xl tracking-tight text-error font-extrabold select-all';
+              document.getElementById('hero-status-title').textContent = 'Net Tax Liability Payable';
+              document.getElementById('hero-payout-type').textContent = 'Challan 280 Self-Assessment';
+              document.getElementById('tbl-refund-label').textContent = 'Net Tax Payable (Self-Assessment)';
+              document.getElementById('tbl-net-refund').textContent = formatINR(netAmount);
+              document.getElementById('tbl-net-refund').className = 'py-5 px-6 text-right font-bold text-lg text-error tabular-nums';
+            }
+
+            const effectiveRate = gross > 0 ? ((computedTax / gross) * 100).toFixed(2) : '0.00';
+            document.getElementById('effective-rate-text').textContent = `${effectiveRate}%`;
+            document.getElementById('effective-rate-bar').style.width = `${Math.min(parseFloat(effectiveRate), 100)}%`;
+            document.getElementById('regime-new-tax').textContent = formatINR(computedTax);
+          }
+
+          // 3. Fetch Gemini AI Tax Explanation
+          try {
+            const explain = await window.api.explainCalculation(activeFilingId);
+            if (explain) {
+              if (explain.summary) {
+                document.getElementById('ai-summary-text').textContent = explain.summary;
+              }
+              if (explain.income_explanation) {
+                document.getElementById('ai-income-explanation').textContent = explain.income_explanation;
+              }
+              if (explain.tax_explanation) {
+                document.getElementById('ai-tax-explanation').textContent = explain.tax_explanation;
+              }
+            }
+          } catch (e) {
+            console.warn('AI explanation fetch note:', e);
+          }
+        } catch (err) {
+          console.warn('Tax calculation API details:', err);
+        }
+      }
+    }
+
+    async function refreshAiSummary() {
+      const activeFilingId = window.getActiveFilingId();
+      if (!activeFilingId) {
+        showToast('No active filing found to analyze', 'error');
+        return;
+      }
+      const btn = document.getElementById('btn-refresh-ai-summary');
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = '<span class="material-symbols-outlined text-[15px] animate-spin">refresh</span> Analyzing...';
+      btn.disabled = true;
+
+      try {
+        const explain = await window.api.explainCalculation(activeFilingId);
+        if (explain) {
+          if (explain.summary) document.getElementById('ai-summary-text').textContent = explain.summary;
+          if (explain.income_explanation) document.getElementById('ai-income-explanation').textContent = explain.income_explanation;
+          if (explain.tax_explanation) document.getElementById('ai-tax-explanation').textContent = explain.tax_explanation;
+          showToast('Gemini AI summary refreshed successfully', 'success');
+        }
+      } catch (err) {
+        showToast('Could not refresh AI summary: ' + (err.message || err), 'error');
+      } finally {
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+      }
+    }
+
+    const downloadBtn = document.getElementById('download-report-btn');
+    if (downloadBtn) {
+      downloadBtn.addEventListener('click', () => {
+        const originalText = downloadBtn.innerHTML;
+        downloadBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Generating Report...';
+        setTimeout(() => {
+          downloadBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] text-tertiary-fixed">check</span> Downloaded AY24-25.pdf';
+          showToast('Tax Computation Summary report generated and saved', 'success');
+          setTimeout(() => {
+            downloadBtn.innerHTML = originalText;
+          }, 3000);
+        }, 1200);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadTaxResult);
+  </script>
+</body>
+</html>

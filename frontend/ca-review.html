@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>CA Verification &amp; Approval | finEasy AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+      main > :first-child { margin-top: 0 !important; }
+      main > :last-child { margin-bottom: 0 !important; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "tertiary-container": "#65fdb5",
+            "on-surface-variant": "#c4c7c8",
+            "secondary": "#b4c5ff",
+            "on-primary": "#2f3131",
+            "surface-tint": "#c6c6c7",
+            "tertiary": "#ffffff",
+            "inverse-surface": "#e5e2e1",
+            "outline": "#8e9192",
+            "secondary-container": "#163f9e",
+            "tertiary-fixed-dim": "#42e09a",
+            "primary-container": "#e2e2e2",
+            "secondary-fixed": "#dbe1ff",
+            "primary": "#ffffff",
+            "surface-container": "#201f1f",
+            "background": "#131313",
+            "on-background": "#e5e2e1",
+            "error": "#ffb4ab",
+            "tertiary-fixed": "#65fdb5",
+            "surface-container-highest": "#353535",
+            "on-secondary-container": "#9bb2ff",
+            "on-surface": "#e5e2e1",
+            "surface": "#131313",
+            "surface-container-low": "#1c1b1b",
+            "surface-variant": "#353535",
+            "surface-container-high": "#2a2a2a",
+            "surface-container-lowest": "#0e0e0e",
+            "secondary-fixed-dim": "#b4c5ff",
+            "outline-variant": "#444748"
+          },
+          borderRadius: {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          fontFamily: {
+            "headline-xl": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "headline-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-lg": ["Plus Jakarta Sans", "sans-serif"],
+            "body-md": ["Plus Jakarta Sans", "sans-serif"],
+            "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "label-md": ["Plus Jakarta Sans", "sans-serif"],
+            "label-sm": ["Plus Jakarta Sans", "sans-serif"],
+            "numeric-metric": ["Plus Jakarta Sans", "sans-serif"]
+          },
+          fontSize: {
+            "numeric-metric": ["2rem", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen">
+  <!-- SIDEBAR NAVIGATION -->
+  <aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-[rgba(255,255,255,0.09)] z-50 flex flex-col justify-between py-6 px-4">
+    <div class="flex flex-col gap-6">
+      <div class="flex items-center gap-3 px-2">
+        <a class="flex items-center gap-2" href="index.html">
+          <img alt="finEasy Logo" class="h-8 w-auto object-contain" src="assets/logo.svg"/>
+        </a>
+      </div>
+      <nav class="flex flex-col gap-1">
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md" data-path="dashboard" href="dashboard.html">
+          <span class="material-symbols-outlined text-[20px]">dashboard</span>Dashboard
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md" data-path="upload" href="upload.html">
+          <span class="material-symbols-outlined text-[20px]">cloud_upload</span>Upload
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md" data-path="tax-result" href="tax-result.html">
+          <span class="material-symbols-outlined text-[20px]">calculate</span>Tax Result
+        </a>
+        <a aria-current="page" class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT transition-colors bg-surface-container-high text-on-surface font-semibold" data-path="ca-review" href="ca-review.html">
+          <span class="material-symbols-outlined text-[20px]">verified_user</span>CA Review
+        </a>
+        <a class="flex items-center gap-3 px-3 py-2.5 rounded-DEFAULT text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors font-label-md text-label-md" data-path="settings" href="#" onclick="showToast('Settings panel opens here', 'info'); return false;">
+          <span class="material-symbols-outlined text-[20px]">settings</span>Settings
+        </a>
+      </nav>
+    </div>
+
+    <!-- User Profile & CA Assigned info -->
+    <div class="border-t border-[rgba(255,255,255,0.06)] pt-4 px-2 flex flex-col gap-3">
+      <div class="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-[rgba(124,156,255,0.1)] border border-[rgba(124,156,255,0.3)] text-secondary w-fit font-label-sm text-xs">
+        <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+        CA Assigned: Active
+      </div>
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+            <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+          </div>
+          <div class="flex flex-col leading-tight max-w-[130px] overflow-hidden">
+            <span class="font-label-md text-xs text-on-surface truncate user-display-name">Taxpayer</span>
+            <span class="font-label-sm text-[11px] text-on-surface-variant truncate user-display-email">user@demo.in</span>
+          </div>
+        </div>
+        <a class="text-on-surface-variant hover:text-on-surface transition-colors p-1" data-path="logout" href="#" title="Sign Out">
+          <span class="material-symbols-outlined text-[20px]">logout</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="pl-64">
+    <!-- Top Header -->
+    <header class="fixed top-0 left-64 right-0 h-16 bg-surface/80 backdrop-blur-xl border-b border-[rgba(255,255,255,0.09)] z-40 flex items-center justify-between px-8">
+      <div class="flex items-center gap-space-sm">
+        <span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Fiscal Year 2024-25</span>
+        <span class="text-outline-variant">•</span>
+        <span class="font-label-sm text-label-sm text-tertiary-fixed">Audit Ready</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <button class="text-on-surface-variant hover:text-on-surface transition-colors" onclick="showToast('Searching audit docket', 'info')">
+          <span class="material-symbols-outlined text-[20px]">search</span>
+        </button>
+        <button class="text-on-surface-variant hover:text-on-surface transition-colors relative" onclick="showToast('CA Ananya Roy left a message 14m ago', 'info')">
+          <span class="material-symbols-outlined text-[20px]">notifications</span>
+          <span class="absolute top-0 right-0 w-2 h-2 rounded-full bg-tertiary-fixed"></span>
+        </button>
+        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center cursor-pointer" onclick="window.location.href='dashboard.html'">
+          <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="relative pt-16 bg-surface min-h-screen w-full px-8 py-6">
+      <div class="flex flex-col w-full max-w-[1400px] mx-auto pb-12">
+        
+        <!-- Header & Stepper -->
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-[rgba(255,255,255,0.06)] mb-6">
+          <div class="flex flex-col gap-1 max-w-2xl text-left">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[rgba(124,156,255,0.12)] text-secondary font-label-sm text-xs font-semibold">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+                Stage 03 Active
+              </span>
+              <span class="font-label-sm text-xs text-on-surface-variant tracking-wider uppercase" id="docket-id">Docket #FE-8924-ITR</span>
+            </div>
+            <h1 class="font-headline-xl text-2xl md:text-3xl font-bold text-primary tracking-tight">CA Verification &amp; Approval</h1>
+            <p class="font-body-md text-sm text-on-surface-variant">Review tax computation queries and grant filing authorization to your chartered accountant</p>
+          </div>
+
+          <!-- 4-Step Stepper -->
+          <div class="flex items-center bg-surface-container-lowest p-2 rounded-full shadow-lg border border-[rgba(255,255,255,0.06)]">
+            <!-- Step 1 -->
+            <div class="flex items-center gap-1.5 px-3 py-1">
+              <div class="w-5 h-5 rounded-full bg-[rgba(61,220,151,0.15)] flex items-center justify-center text-tertiary-fixed">
+                <span class="material-symbols-outlined text-[14px]">check</span>
+              </div>
+              <span class="font-label-sm text-xs text-tertiary-fixed font-medium">1. Uploaded</span>
+            </div>
+            <div class="w-4 h-[1px] bg-outline-variant/40"></div>
+
+            <!-- Step 2 -->
+            <div class="flex items-center gap-1.5 px-3 py-1">
+              <div class="w-5 h-5 rounded-full bg-[rgba(61,220,151,0.15)] flex items-center justify-center text-tertiary-fixed">
+                <span class="material-symbols-outlined text-[14px]">check</span>
+              </div>
+              <span class="font-label-sm text-xs text-tertiary-fixed font-medium">2. CA Review</span>
+            </div>
+            <div class="w-4 h-[1px] bg-outline-variant/40"></div>
+
+            <!-- Step 3 (Current) -->
+            <div class="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface-container-high border border-secondary/30">
+              <div class="w-5 h-5 rounded-full bg-secondary flex items-center justify-center text-on-secondary">
+                <span class="material-symbols-outlined text-[13px]">verified_user</span>
+              </div>
+              <span class="font-label-sm text-xs text-primary font-semibold">3. Tax Approval</span>
+            </div>
+            <div class="w-4 h-[1px] bg-outline-variant/20"></div>
+
+            <!-- Step 4 -->
+            <div class="flex items-center gap-1.5 px-3 py-1 opacity-50">
+              <div class="w-5 h-5 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant">
+                <span class="font-label-sm text-[11px]">4</span>
+              </div>
+              <span class="font-label-sm text-xs text-on-surface-variant">E-File</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2-Column Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- LEFT 7 COLS: Dialogue Thread & Verification Matrix -->
+          <section class="lg:col-span-7 flex flex-col gap-5 text-left">
+            <div class="bg-surface-container-low p-7 rounded-lg border border-[rgba(255,255,255,0.06)] shadow-xl flex flex-col gap-6">
+              <!-- Thread Header -->
+              <div class="flex items-center justify-between pb-4 border-b border-surface-container-high">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-full bg-surface-container-high flex items-center justify-center text-secondary">
+                    <span class="material-symbols-outlined text-[20px]">forum</span>
+                  </div>
+                  <div class="flex flex-col">
+                    <span class="font-label-md text-sm font-semibold text-primary">Computation Audit Ledger</span>
+                    <span class="font-body-sm text-xs text-on-surface-variant">Live dialogue &amp; proof reconciliation with CA</span>
+                  </div>
+                </div>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[rgba(61,220,151,0.1)] text-tertiary-fixed font-label-sm text-xs font-semibold">
+                  <span class="w-1.5 h-1.5 rounded-full bg-tertiary-fixed"></span>
+                  2/2 Items Reconciled
+                </span>
+              </div>
+
+              <!-- Message Sequence -->
+              <div class="flex flex-col gap-5" id="messages-stream">
+                <!-- Message 1: CA Query -->
+                <div class="flex gap-3.5 items-start">
+                  <div class="w-8 h-8 rounded-full overflow-hidden shrink-0 bg-surface-container-highest">
+                    <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFu_iOBuf3n0-XTpVuY8_av0nwI7xRWEcnHAda0iGhCUEe2QBInGaHYVqhJjIggL-r2OS2ivh-sH9Z9IEz-3nWOUZ7uINVyUe83OAon1-ECchcxlWQ4ul4cfUSpd7EPfjurpkt4sVw0JK_COpCnWW-wXvvQmHWdeMsTH4LJ97f2Onje8G_B_0Dd_V87JTTkx5B9gcQtLaqxTWqqNX3KKUleYVAuLGp_9WpFbNDZ0JRN6LnkeevzaB1"/>
+                  </div>
+                  <div class="flex flex-col gap-1.5 flex-1 min-w-0">
+                    <div class="flex items-center justify-between">
+                      <span class="font-label-md text-xs font-semibold text-primary flex items-center gap-2">
+                        CA Ananya Roy
+                        <span class="font-label-sm text-[11px] text-on-surface-variant font-normal">ICAI #412890</span>
+                      </span>
+                      <span class="font-body-sm text-xs text-on-surface-variant">10:15 AM</span>
+                    </div>
+                    <div class="p-4 rounded-DEFAULT rounded-tl-none bg-surface-container-high text-on-surface font-body-md text-xs leading-relaxed border border-[rgba(255,255,255,0.04)]">
+                      Hi Rajesh, I noticed rent receipts for Q3 have landlord PAN attached, which allows full HRA claim of <strong class="text-primary font-semibold">₹1,20,000</strong> under section 10(13A). Please verify this matches your bank outflows.
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Message 2: Client Reply -->
+                <div class="flex gap-3.5 items-start justify-end pl-10">
+                  <div class="flex flex-col gap-1.5 flex-1 min-w-0 items-end">
+                    <div class="flex items-center gap-2">
+                      <span class="font-body-sm text-xs text-on-surface-variant">11:02 AM</span>
+                      <span class="font-label-md text-xs font-semibold text-primary user-display-name">Rajesh Singhania</span>
+                    </div>
+                    <div class="p-4 rounded-DEFAULT rounded-tr-none bg-[rgba(124,156,255,0.12)] text-primary font-body-md text-xs leading-relaxed text-left border border-[rgba(124,156,255,0.2)]">
+                      Yes, confirmed. Transferred directly via NEFT each month. Bank statement has corresponding debit entries.
+                    </div>
+                  </div>
+                  <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0">
+                    <span class="material-symbols-outlined text-[16px]">person</span>
+                  </div>
+                </div>
+
+                <!-- Verified Pill -->
+                <div class="my-1 py-2 px-4 rounded-full bg-[rgba(61,220,151,0.08)] border border-[rgba(61,220,151,0.2)] flex items-center justify-between self-center max-w-md w-full">
+                  <div class="flex items-center gap-2 text-tertiary-fixed font-label-sm text-xs">
+                    <span class="material-symbols-outlined text-[16px]">check_circle</span>
+                    <span>Resolved &amp; Verified: Section 10(13A) HRA exemption updated</span>
+                  </div>
+                  <span class="font-label-sm text-xs text-tertiary-fixed font-mono font-semibold">+₹37,440 savings</span>
+                </div>
+
+                <!-- Message 3: CA Final Clearance -->
+                <div class="flex gap-3.5 items-start">
+                  <div class="w-8 h-8 rounded-full overflow-hidden shrink-0 bg-surface-container-highest">
+                    <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDb_BUED2PCbcQgXSocWmNAQYKLV9XnNFNWCpwoW15c2kRG7iJ5SDgqjMiB9TXsw98b-WjbuLNquxipyYaunEeJzdhkoYMa1Wll25uJKiLSrxbZ5lMrCQ8TY8PrNgbIub7TLPUt8fWnHy0WQpOgcgOhiyu-tP3mj52mZ7E52suyuLPTzuIANJ381Of6QkLXveOG7ICjecUsg-5w27ApukJTAvhqw_vtwdtsnhDn38NkMwc9WoK-gorx"/>
+                  </div>
+                  <div class="flex flex-col gap-1.5 flex-1 min-w-0">
+                    <div class="flex items-center justify-between">
+                      <span class="font-label-md text-xs font-semibold text-primary flex items-center gap-2">
+                        CA Ananya Roy
+                        <span class="inline-flex items-center px-2 py-0.5 rounded-full bg-surface-container font-label-sm text-[10px] text-secondary">Final Audit Note</span>
+                      </span>
+                      <span class="font-body-sm text-xs text-on-surface-variant">11:45 AM</span>
+                    </div>
+                    <div class="p-4 rounded-DEFAULT rounded-tl-none bg-surface-container-high text-on-surface font-body-md text-xs leading-relaxed border border-[rgba(255,255,255,0.04)]">
+                      All computations cross-checked with 26AS, AIS, and TIS. Net refund is finalized at <span class="text-tertiary-fixed font-semibold" id="audit-refund-val">₹46,820</span>. Please review the summary and approve e-filing.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Message Input -->
+              <div class="pt-2 flex flex-col gap-3">
+                <div class="bg-surface-container-lowest p-3 rounded-DEFAULT flex flex-col gap-2 border border-[rgba(255,255,255,0.06)]">
+                  <textarea class="w-full bg-transparent text-primary placeholder-on-surface-variant/40 font-body-md text-xs focus:outline-none resize-none" id="ca-clarification-input" placeholder="Type your question or clarification for CA Ananya..." rows="3"></textarea>
+                  <div class="flex items-center justify-between pt-2 border-t border-[rgba(255,255,255,0.05)]">
+                    <div class="flex items-center gap-1">
+                      <button class="p-2 rounded-full hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1.5 text-xs font-medium" onclick="showToast('Select proof document to attach to chat', 'info')" type="button">
+                        <span class="material-symbols-outlined text-[18px]">attach_file</span>
+                        <span class="hidden sm:inline">Attach Proof</span>
+                      </button>
+                    </div>
+                    <button class="px-5 py-2 rounded-full bg-primary text-on-primary font-label-md text-xs font-semibold hover:bg-white hover:text-black transition-colors inline-flex items-center gap-2" onclick="sendChatMessage()" type="button">
+                      <span>Send Note</span>
+                      <span class="material-symbols-outlined text-[16px]">send</span>
+                    </button>
+                  </div>
+                </div>
+                <span class="font-body-sm text-[11px] text-on-surface-variant/70 text-center">Responses are monitored under SLA: typical turnaround 18 minutes</span>
+              </div>
+            </div>
+
+            <!-- Cross-Verification Matrix -->
+            <div class="bg-surface-container-low p-6 rounded-lg border border-[rgba(255,255,255,0.06)] shadow-lg flex flex-col gap-4">
+              <div class="flex items-center justify-between">
+                <h3 class="font-headline-md text-sm font-bold text-primary">Cross-Verification Matrix</h3>
+                <span class="font-label-sm text-[11px] text-on-surface-variant uppercase tracking-wider">ITD Central Sync</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="bg-surface-container p-3.5 rounded-DEFAULT flex flex-col gap-1 border border-[rgba(255,255,255,0.04)]">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-sm text-[11px] text-on-surface-variant">Form 26AS</span>
+                    <span class="material-symbols-outlined text-tertiary-fixed text-[16px]">check_circle</span>
+                  </div>
+                  <span class="font-headline-md text-base font-bold text-primary tabular-nums" id="matrix-tds">₹73,015</span>
+                  <span class="font-body-sm text-[11px] text-tertiary-fixed">TDS Matched 100%</span>
+                </div>
+                <div class="bg-surface-container p-3.5 rounded-DEFAULT flex flex-col gap-1 border border-[rgba(255,255,255,0.04)]">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-sm text-[11px] text-on-surface-variant">AIS / TIS</span>
+                    <span class="material-symbols-outlined text-tertiary-fixed text-[16px]">check_circle</span>
+                  </div>
+                  <span class="font-headline-md text-base font-bold text-primary tabular-nums" id="matrix-gross">₹9,91,029</span>
+                  <span class="font-body-sm text-[11px] text-tertiary-fixed">Salary Ledgers Reconciled</span>
+                </div>
+                <div class="bg-surface-container p-3.5 rounded-DEFAULT flex flex-col gap-1 border border-[rgba(255,255,255,0.04)]">
+                  <div class="flex items-center justify-between">
+                    <span class="font-label-sm text-[11px] text-on-surface-variant">Net Tax Refund</span>
+                    <span class="material-symbols-outlined text-tertiary-fixed text-[16px]">trending_up</span>
+                  </div>
+                  <span class="font-headline-md text-base font-bold text-tertiary-fixed tabular-nums" id="matrix-refund">₹46,820</span>
+                  <span class="font-body-sm text-[11px] text-on-surface-variant">Credited via RTGS</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- RIGHT 5 COLS: Assigned CA & Final Authorization -->
+          <aside class="lg:col-span-5 flex flex-col gap-5 text-left">
+            <!-- CA Profile Card -->
+            <div class="bg-surface-container-low p-6 rounded-lg border border-[rgba(255,255,255,0.06)] shadow-xl flex flex-col gap-5 relative overflow-hidden">
+              <div class="flex items-start gap-4">
+                <div class="relative">
+                  <div class="w-16 h-16 rounded-full overflow-hidden bg-surface-container-highest shadow-md border border-secondary/30">
+                    <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrSZuVRzgUUtf7ooxTj-HVXnRVLALDl7MjzCiOwR2o7gVnvXwG8wnXYV8I9_Zzg7CiAEbGOsYxCElVj5S1I7iSu7A65vb-g_aeC1cgiTjgFaAJWlDuQaKgH8Z76Q9iFpmvT7epPGmRyfM7oRiosGnUyoreWjJhBmx32eDIuBiAcsjjrqP55RgSl9GQ-AsbcosOGEP3ehQ4wyhN3nbGUiso7KcnmQeF2ns3PHtIRN5ysOenZmhf2Udk"/>
+                  </div>
+                  <span class="absolute bottom-0 right-0 w-4 h-4 rounded-full bg-tertiary-fixed border-2 border-surface-container-low" title="Available for audit review"></span>
+                </div>
+                <div class="flex flex-col flex-1 min-w-0">
+                  <div class="flex items-center justify-between gap-1">
+                    <h2 class="font-headline-md text-base font-bold text-primary truncate">CA Ananya Roy</h2>
+                    <span class="px-2 py-0.5 rounded-full bg-[rgba(61,220,151,0.12)] text-tertiary-fixed font-label-sm text-[10px] font-semibold">FCA</span>
+                  </div>
+                  <span class="font-body-sm text-xs text-on-surface-variant">ICAI Membership #412890</span>
+                  <div class="flex items-center gap-3 mt-1.5">
+                    <div class="flex items-center gap-1 text-primary font-label-sm text-xs font-semibold">
+                      <span class="material-symbols-outlined text-secondary text-[16px]">star</span>
+                      <span>4.95</span>
+                    </div>
+                    <span class="text-outline-variant">•</span>
+                    <span class="font-body-sm text-xs text-on-surface-variant">1,240 returns filed</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Expertise Badges -->
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <span class="px-2.5 py-1 rounded-DEFAULT bg-surface-container text-on-surface font-label-sm text-xs">Capital Gains</span>
+                <span class="px-2.5 py-1 rounded-DEFAULT bg-surface-container text-on-surface font-label-sm text-xs">ESOPs &amp; RSUs</span>
+                <span class="px-2.5 py-1 rounded-DEFAULT bg-surface-container text-on-surface font-label-sm text-xs">Sec 54F Exemption</span>
+              </div>
+
+              <!-- Actions -->
+              <div class="grid grid-cols-2 gap-2 pt-2">
+                <button class="py-2.5 px-3 rounded-full bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-xs font-semibold flex items-center justify-center gap-2 transition-colors" onclick="showToast('Scheduling consultation call with CA Ananya...', 'info')" type="button">
+                  <span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                  <span>Schedule Call</span>
+                </button>
+                <button class="py-2.5 px-3 rounded-full bg-surface-container hover:bg-surface-container-high text-primary font-label-md text-xs font-semibold flex items-center justify-center gap-2 transition-colors" onclick="document.getElementById('ca-clarification-input').focus()" type="button">
+                  <span class="material-symbols-outlined text-[18px]">chat</span>
+                  <span>Direct Message</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Guarantee Card -->
+            <div class="bg-gradient-to-br from-surface-container-high via-surface-container to-surface-container-low p-6 rounded-lg border border-[rgba(255,255,255,0.06)] shadow-xl relative">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-full bg-[rgba(124,156,255,0.15)] flex items-center justify-center text-secondary shrink-0">
+                  <span class="material-symbols-outlined text-[26px]">gavel</span>
+                </div>
+                <div class="flex flex-col gap-1.5">
+                  <div class="flex items-center gap-2">
+                    <span class="font-label-md text-xs font-semibold text-primary">100% Error-Free Guarantee</span>
+                    <span class="material-symbols-outlined text-secondary text-[16px]">verified</span>
+                  </div>
+                  <p class="font-body-sm text-xs text-on-surface-variant leading-relaxed">
+                    finEasy CAs represent you in case of any ITD departmental notices. Includes full audit trail defense and free scrutiny assessment representation under section 143(1).
+                  </p>
+                </div>
+              </div>
+              <div class="mt-4 pt-3 flex items-center justify-between text-on-surface-variant font-label-sm text-xs border-t border-surface-container-highest">
+                <span>Power of Attorney: Standard Filing</span>
+                <span class="text-tertiary-fixed font-semibold">Backed by FinEasy Shield</span>
+              </div>
+            </div>
+
+            <!-- Summary & Approval CTA -->
+            <div class="bg-surface-container-low p-6 rounded-lg border border-[rgba(255,255,255,0.06)] shadow-xl flex flex-col gap-5">
+              <div class="flex flex-col gap-1">
+                <span class="font-label-sm text-xs text-on-surface-variant uppercase tracking-wider font-semibold">Final Authorization</span>
+                <div class="flex items-baseline justify-between">
+                  <span class="font-body-md text-sm text-on-surface">Verified Tax Refund</span>
+                  <span class="font-numeric-metric text-2xl text-tertiary-fixed tabular-nums font-bold" id="auth-refund">₹46,820</span>
+                </div>
+              </div>
+              <div class="space-y-2 bg-surface-container-lowest p-3.5 rounded-DEFAULT border border-[rgba(255,255,255,0.04)]">
+                <div class="flex items-center justify-between text-xs text-on-surface-variant">
+                  <span>Gross Total Income</span>
+                  <span class="text-primary tabular-nums font-semibold" id="auth-gross">₹24,50,000</span>
+                </div>
+                <div class="flex items-center justify-between text-xs text-on-surface-variant">
+                  <span>Allowable Exemptions (Std Ded + Sec 80C)</span>
+                  <span class="text-tertiary-fixed tabular-nums font-semibold" id="auth-deductions">-₹2,02,500</span>
+                </div>
+                <div class="flex items-center justify-between text-xs text-on-surface-variant">
+                  <span>TDS Already Credited</span>
+                  <span class="text-primary tabular-nums font-semibold" id="auth-tds">₹2,84,300</span>
+                </div>
+              </div>
+
+              <!-- Affirmation Checkbox -->
+              <label class="flex items-start gap-3 cursor-pointer select-none">
+                <input checked="" class="mt-1 w-4 h-4 rounded accent-primary bg-surface-container-high border-0" id="terms-agree" type="checkbox"/>
+                <span class="font-body-sm text-xs text-on-surface-variant leading-snug">
+                  I authorize CA Ananya Roy to digitally sign and e-file my ITR for AY 2024-25 with the Central Board of Direct Taxes.
+                </span>
+              </label>
+
+              <!-- Final Action Buttons -->
+              <div class="flex flex-col gap-2.5 pt-2">
+                <button class="w-full py-3.5 px-6 rounded-full bg-primary text-on-primary font-label-md text-sm font-bold flex items-center justify-center gap-2 hover:bg-white transition-all active:scale-[0.98] shadow-md group" id="btn-approve-efile" onclick="handleFinalApproval()" type="button">
+                  <span>Resolve &amp; Approve for E-Filing</span>
+                  <span class="material-symbols-outlined text-[18px] group-hover:translate-x-0.5 transition-transform">arrow_forward</span>
+                </button>
+
+                <button class="w-full py-3 px-6 rounded-full bg-transparent hover:bg-surface-container text-on-surface-variant hover:text-primary font-label-md text-xs font-semibold flex items-center justify-center gap-2 transition-colors border border-[rgba(255,255,255,0.08)]" onclick="handleRequestChanges()" type="button">
+                  <span class="material-symbols-outlined text-[18px]">edit_note</span>
+                  <span>Request Changes</span>
+                </button>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- E-FILING SUCCESS MODAL -->
+  <div class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden" id="efile-modal">
+    <div class="bg-surface-container-low max-w-lg w-full p-8 rounded-[2rem] border border-[rgba(61,220,151,0.3)] shadow-2xl relative text-left">
+      <div class="w-16 h-16 rounded-full bg-[rgba(61,220,151,0.15)] text-tertiary-fixed flex items-center justify-center mb-5 mx-auto">
+        <span class="material-symbols-outlined text-[36px]">verified</span>
+      </div>
+      
+      <h3 class="text-2xl font-bold text-primary text-center tracking-tight mb-1">E-Filing Successfully Transmitted</h3>
+      <p class="text-xs text-on-surface-variant text-center mb-6">Centralized Processing Center (CPC), Bengaluru has accepted your ITR submission</p>
+
+      <div class="bg-surface-container-lowest p-4 rounded-xl space-y-3 mb-6 border border-[rgba(255,255,255,0.06)]">
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-on-surface-variant">Acknowledgment No:</span>
+          <span class="font-mono text-tertiary-fixed font-bold" id="ack-number">FINDEMO-2026-89410</span>
+        </div>
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-on-surface-variant">Filing Type:</span>
+          <span class="text-primary font-semibold">ITR-1 (Section 139(1))</span>
+        </div>
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-on-surface-variant">Assessment Year:</span>
+          <span class="text-primary font-semibold">AY 2024-25</span>
+        </div>
+        <div class="flex items-center justify-between text-xs">
+          <span class="text-on-surface-variant">Digital Signature:</span>
+          <span class="text-secondary font-semibold">CA Ananya Roy (DSC Verified)</span>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2.5">
+        <button class="w-full py-3 px-6 rounded-full bg-primary text-on-primary font-semibold text-sm hover:bg-white transition-all flex items-center justify-center gap-2" onclick="showToast('Downloading official ITR-V Acknowledgment...', 'success'); setTimeout(() => { document.getElementById('efile-modal').classList.add('hidden'); window.location.href='dashboard.html'; }, 1500)">
+          <span class="material-symbols-outlined text-[18px]">download</span>
+          Download Official ITR-V (PDF)
+        </button>
+        <button class="w-full py-2.5 px-6 rounded-full bg-transparent hover:bg-surface-container text-on-surface-variant text-xs font-semibold" onclick="document.getElementById('efile-modal').classList.add('hidden'); window.location.href='dashboard.html';">
+          Return to Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    const activeFilingId = window.getActiveFilingId();
+
+    async function initCAReview() {
+      const user = window.api.getUser();
+      if (user) {
+        const names = document.querySelectorAll('.user-display-name');
+        names.forEach(el => el.textContent = user.name || 'Rajesh Singhania');
+      }
+
+      if (activeFilingId) {
+        document.getElementById('docket-id').textContent = `Docket #FE-${activeFilingId.substring(0, 8).toUpperCase()}`;
+
+        // Fetch AI Analysis if present
+        try {
+          const aiAnalysis = await window.api.getAiAnalysis(activeFilingId);
+          if (aiAnalysis) {
+            if (aiAnalysis.employee_name) {
+              document.querySelectorAll('.user-display-name').forEach(el => el.textContent = aiAnalysis.employee_name);
+            }
+          }
+        } catch (e) {
+          console.warn('CA review AI analysis sync:', e);
+        }
+
+        try {
+          const tax = await window.api.getLatestTax(activeFilingId);
+          if (tax && (tax.taxable_income !== undefined || tax.gross_income !== undefined)) {
+            const gross = tax.gross_income ?? tax.gross_total_income ?? 991029;
+            const deductions = tax.deductions ?? tax.total_deductions ?? 202500;
+            const computedTax = tax.total_tax ?? tax.total_tax_liability ?? tax.net_tax_payable ?? 35207;
+            const tds = tax.tds ?? tax.tds_deducted ?? 73015;
+
+            let refund = 0;
+            let isRefund = true;
+            if (tax.refund_or_payable !== undefined && tax.refund_or_payable !== null) {
+              if (tax.refund_or_payable < 0) {
+                isRefund = true;
+                refund = Math.abs(tax.refund_or_payable);
+              } else if (tax.refund_or_payable > 0) {
+                isRefund = false;
+                refund = tax.refund_or_payable;
+              } else {
+                refund = 0;
+              }
+            } else {
+              const diff = tds - computedTax;
+              isRefund = diff >= 0;
+              refund = Math.abs(diff);
+            }
+
+            const formattedRefund = formatINR(refund);
+            if (isRefund) {
+              document.getElementById('audit-refund-val').textContent = formattedRefund;
+              document.getElementById('matrix-refund').textContent = formattedRefund;
+              document.getElementById('auth-refund').textContent = formattedRefund;
+            } else {
+              document.getElementById('audit-refund-val').textContent = `${formattedRefund} (Net Payable)`;
+              document.getElementById('matrix-refund').textContent = formattedRefund;
+              document.getElementById('auth-refund').textContent = `${formattedRefund} (Payable)`;
+              document.getElementById('auth-refund').className = 'font-numeric-metric text-2xl text-error tabular-nums font-bold';
+            }
+
+            document.getElementById('auth-gross').textContent = formatINR(gross);
+            document.getElementById('auth-deductions').textContent = `-${formatINR(deductions)}`;
+            document.getElementById('auth-tds').textContent = formatINR(tds);
+
+            const mGross = document.getElementById('matrix-gross');
+            if (mGross) mGross.textContent = formatINR(gross);
+            const mTds = document.getElementById('matrix-tds');
+            if (mTds) mTds.textContent = formatINR(tds);
+          }
+        } catch (e) {
+          console.warn('CA review tax sync:', e);
+        }
+      }
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('ca-clarification-input');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const user = window.api.getUser();
+      const userName = user ? user.name : 'Rajesh Singhania';
+
+      const stream = document.getElementById('messages-stream');
+      const newMsg = document.createElement('div');
+      newMsg.className = 'flex gap-3.5 items-start justify-end pl-10';
+      newMsg.innerHTML = `
+        <div class="flex flex-col gap-1.5 flex-1 min-w-0 items-end">
+          <div class="flex items-center gap-2">
+            <span class="font-body-sm text-xs text-on-surface-variant">Just now</span>
+            <span class="font-label-md text-xs font-semibold text-primary">${userName}</span>
+          </div>
+          <div class="p-4 rounded-DEFAULT rounded-tr-none bg-[rgba(124,156,255,0.12)] text-primary font-body-md text-xs leading-relaxed text-left border border-[rgba(124,156,255,0.2)]">
+            ${text}
+          </div>
+        </div>
+        <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-on-primary shrink-0">
+          <span class="material-symbols-outlined text-[16px]">person</span>
+        </div>
+      `;
+      stream.appendChild(newMsg);
+      input.value = '';
+      showToast('Note dispatched to CA Ananya Roy', 'success');
+    }
+
+    async function handleFinalApproval() {
+      const agree = document.getElementById('terms-agree').checked;
+      if (!agree) {
+        showToast('Please check the authorization declaration to proceed', 'error');
+        return;
+      }
+
+      const btn = document.getElementById('btn-approve-efile');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Transmitting to CPC...';
+
+      try {
+        if (activeFilingId) {
+          await window.api.approveFiling(activeFilingId, 'Approved by Taxpayer and Chartered Accountant');
+          const submitRes = await window.api.submitToGovernment(activeFilingId);
+          if (submitRes && submitRes.acknowledgement_number) {
+            document.getElementById('ack-number').textContent = submitRes.acknowledgement_number;
+          }
+        }
+      } catch (err) {
+        console.warn('Submission API notification:', err);
+      }
+
+      // Show official acknowledgment dialog
+      document.getElementById('efile-modal').classList.remove('hidden');
+    }
+
+    async function handleRequestChanges() {
+      const note = prompt('Please specify which calculation requires revision by CA Ananya Roy:');
+      if (note && activeFilingId) {
+        try {
+          await window.api.requestChanges(activeFilingId, note);
+          showToast('Revision request sent to CA desk: ' + note, 'info');
+        } catch (e) {
+          showToast('Revision logged: ' + note, 'info');
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initCAReview);
+  </script>
+</body>
+</html>
